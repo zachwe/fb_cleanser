@@ -15,9 +15,11 @@ class FacebookAuth {
 	}
 	
 	//
-	static function getSession() {
-		$facebook = FacebookAuth::getFacebook();
-		$session = $facebook->getSession();
+	static function getSession($facebook) {
+		return $facebook->getSession();
+	}
+	
+	static function getMe($facebook, $session) {
 		$me = null;
 		if ($session) {
 		  try {
@@ -25,9 +27,10 @@ class FacebookAuth {
 		      $me = $facebook->api('/me');
 		  } catch (FacebookApiException $e) {
 		      error_log($e);
+		      return false;
 		  }
+		  return $me;
 		}
-		return $facebook;
 		
 	}
 }
